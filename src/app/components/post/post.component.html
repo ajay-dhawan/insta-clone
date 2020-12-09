@@ -1,0 +1,39 @@
+<div class="card mb-3 border-secondary">
+  <div class="card-body">
+    <h3 class="card-text" >
+      <small class="text-muted" style="font-weight: 700;">@{{ post.instaId }}</small>
+    </h3>
+    <h6 class="card-title text-primary text-uppercase">
+      {{ post.locationName }}
+    </h6>
+  </div>
+    <a href="#" target="_blank">
+      <img
+        [src]="post.picture"
+        height="500"
+        width="auto"
+        class="card-img-top img-fluid"
+      />
+    </a>
+    <div class="card-body">
+      
+      <p class="card-text" style="font-weight: 700;">{{ post.description }}</p>
+      
+    </div>
+    <div
+      class="card-footer bg-transparent border-secondary d-flex justify-content-around align-content-center"
+    >
+      <div (click)="upvotePost()" class="text-primary">
+        <fa-icon [icon]="faThumbsUp" size="lg" primaryColor="blue"></fa-icon>
+        {{ upvote }}
+      </div>
+      <div (click)="downvotePost()" class="text-secondary">
+        <fa-icon [icon]="faThumbsDown" size="lg" primaryColor="blue"></fa-icon>
+        {{ downvote }}
+      </div>
+      <a [href]="getInstaUrl()" target="_blank" class="text-primary">
+        <fa-icon [icon]="faShareSquare" size="lg" primaryColor="blue"></fa-icon>
+      </a>
+    </div>
+  </div>
+  
