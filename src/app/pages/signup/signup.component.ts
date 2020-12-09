@@ -23,7 +23,7 @@ import { imageConfig } from "src/utils/config";
 })
 export class SignupComponent implements OnInit {
   
-   picture = "../../../assets/img2.png";  
+  picture = "../../../assets/img2.png";  
   uploadPercent: number = null;
 
   constructor(
@@ -45,7 +45,6 @@ export class SignupComponent implements OnInit {
     .then((res) => {
         console.log(res);
         const { uid } = res.user;
-
         this.db.object(`/users/${uid}`)
           .set({
             id: uid,

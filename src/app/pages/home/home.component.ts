@@ -36,8 +36,8 @@ export class HomeComponent implements OnInit {
     //grab all posts from firebase
 
     db.object("/posts")
-      .valueChanges()
-      .subscribe((obj) => {
+    .valueChanges()
+    .subscribe((obj) => {
         if (obj) {
           this.posts = Object.values(obj).sort((a, b) => b.date - a.date);
           this.isLoading = false;
