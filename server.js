@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-app.use(express.static(__dirname + '/dist/insta-clone'));
+app.use(express.static(__dirname + '/dist/travelgram'));
 app.get('*', function(req,res) {
-res.sendFile(path.join(__dirname+'/dist/insta-clone/index.html'));});
+res.sendFile(path.join(__dirname+'/dist/travelgram/index.html'));});
 app.listen(process.env.PORT || 8080);
