@@ -9,7 +9,7 @@ export class UserComponent implements OnInit {
   @Input()
   user;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
   }

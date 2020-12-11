@@ -1,29 +1,28 @@
-import { Component, OnInit } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 //services
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from 'src/app/services/auth.service';
 
 //angular form
-import { NgForm } from "@angular/forms";
+import { NgForm } from '@angular/forms';
 
-import { finalize } from "rxjs/operators";
+import { finalize } from 'rxjs/operators';
 //firebase
-import { AngularFireStorage } from "@angular/fire/storage";
-import { AngularFireDatabase } from "@angular/fire/database"; 
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 //browser image resizer
-import { readAndCompressImage } from "browser-image-resizer";
-import { imageConfig } from "src/utils/config";
+import { readAndCompressImage } from 'browser-image-resizer';
+import { imageConfig } from 'src/utils/config';
 
 @Component({
-  selector: "app-signup",
-  templateUrl: "./signup.component.html",
-  styleUrls: ["./signup.component.css"],
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  
-  picture = "../../../assets/img2.png";  
+  picture = '../../../assets/img2.png';
   uploadPercent: number = null;
 
   constructor(
@@ -31,37 +30,35 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private db: AngularFireDatabase,
     private storage: AngularFireStorage,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit(f: NgForm) {
     const { email, password, username, country, bio, name } = f.form.value;
 
-
-    this.auth.signUp(email, password)
-    .then((res) => {
+    this.auth
+      .signUp(email, password)
+      .then((res) => {
         console.log(res);
         const { uid } = res.user;
-        this.db.object(`/users/${uid}`)
-          .set({
-            id: uid,
-            name: name,
-            email: email,
-            instaUserName: username,
-            country: country,
-            bio: bio,
-            picture: this.picture,
-          });
+        this.db.object(`/users/${uid}`).set({
+          id: uid,
+          name: name,
+          email: email,
+          instaUserName: username,
+          country: country,
+          bio: bio,
+          picture: this.picture,
+        });
       })
       .then(() => {
-        this.router.navigateByUrl("/");
-        this.toastr.success("SignUp Success");
+        this.router.navigateByUrl('/');
+        this.toastr.success('SignUp Success');
       })
       .catch((err) => {
-        this.toastr.error("Signup failed");
+        this.toastr.error('Signup failed');
       });
   }
 
@@ -70,7 +67,7 @@ export class SignupComponent implements OnInit {
 
     let resizedImage = await readAndCompressImage(file, imageConfig);
 
-    const filePath = file.name; 
+    const filePath = file.name;
     const fileRef = this.storage.ref(filePath);
 
     const task = this.storage.upload(filePath, resizedImage);
@@ -79,14 +76,15 @@ export class SignupComponent implements OnInit {
       this.uploadPercent = percetage;
     });
 
-    task.snapshotChanges()
+    task
+      .snapshotChanges()
       .pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             this.picture = url;
-            this.toastr.success("image upload success");
+            this.toastr.success('image upload success');
           });
-        }),
+        })
       )
       .subscribe();
   }

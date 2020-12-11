@@ -1,29 +1,29 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 //services
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from 'src/app/services/auth.service';
 
 //angular form
-import { NgForm } from "@angular/forms";
+import { NgForm } from '@angular/forms';
 
-import { finalize } from "rxjs/operators";
+import { finalize } from 'rxjs/operators';
 //firebase
-import { AngularFireStorage } from "@angular/fire/storage";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 //browser image resizer
-import { readAndCompressImage } from "browser-image-resizer";
-import { imageConfig } from "src/utils/config";
+import { readAndCompressImage } from 'browser-image-resizer';
+import { imageConfig } from 'src/utils/config';
 
 //uuid
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
-  selector: "app-addpost",
-  templateUrl: "./addpost.component.html",
-  styleUrls: ["./addpost.component.css"],
+  selector: 'app-addpost',
+  templateUrl: './addpost.component.html',
+  styleUrls: ['./addpost.component.css'],
 })
 export class AddpostComponent implements OnInit {
   locationName: string;
@@ -38,10 +38,11 @@ export class AddpostComponent implements OnInit {
     private strorage: AngularFireStorage,
     private toastr: ToastrService,
     auth: AuthService,
-    private router: Router,
+    private router: Router
   ) {
     auth.getUser().subscribe((user) => {
-      this.db.object(`/users/${user.uid}`)
+      this.db
+        .object(`/users/${user.uid}`)
         .valueChanges()
         .subscribe((user) => {
           this.user = user;
@@ -49,13 +50,13 @@ export class AddpostComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     const uid = uuidv4();
 
-    this.db.object(`/posts/${uid}`)
+    this.db
+      .object(`/posts/${uid}`)
       .set({
         id: uid,
         locationName: this.locationName,
@@ -66,11 +67,11 @@ export class AddpostComponent implements OnInit {
         date: Date.now(),
       })
       .then(() => {
-        this.toastr.success("Post added successfully");
-        this.router.navigateByUrl("/");
+        this.toastr.success('Post added successfully');
+        this.router.navigateByUrl('/');
       })
       .catch((err) => {
-        this.toastr.error("Oopsss");
+        this.toastr.error('Oopsss');
       });
   }
 
@@ -88,13 +89,16 @@ export class AddpostComponent implements OnInit {
       this.uploadPercent = percentage;
     });
 
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe((url) => {
-          this.picture = url;
-          this.toastr.success("Image upload Success");
-        });
-      }),
-    ).subscribe();
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.picture = url;
+            this.toastr.success('Image upload Success');
+          });
+        })
+      )
+      .subscribe();
   }
 }

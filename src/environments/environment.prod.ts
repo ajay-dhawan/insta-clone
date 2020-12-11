@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  firebase : {
+  firebase: {
     apiKey: "AIzaSyDOrJtlLOwTIyOYxNtPFCOQkIqo1JILfwY",
     authDomain: "insta-clone-204ce.firebaseapp.com",
     databaseURL: "https://insta-clone-204ce-default-rtdb.firebaseio.com",

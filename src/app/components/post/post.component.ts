@@ -33,7 +33,7 @@ export class PostComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   //TODO: bug in updating the changes
   ngOnChanges(): void {
